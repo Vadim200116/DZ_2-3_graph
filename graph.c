@@ -27,7 +27,6 @@ int main(void){
         NumN++;
         fclose(MatrFile);
         int Arr [NumV][NumN]; // матрица инцидентности
-        int loop[NumN];// массив петель
         MatrFile=fopen("matr.txt", "r");
         for(int i=0;i<NumV;i++){
             int j=0;
@@ -62,7 +61,7 @@ int main(void){
         char VertNames[NumV]; // массив вершин
         for (int i = 0; i < NumV; i++)
             VertNames[i]='a'+i;
-        char Connect[NumN][2];// содержит соединенные вершины
+        char Connect[NumN][2];// массив соединенных вершин
         for (int j = 0; j < NumN; j++){
             int k=0;
             for (int i = 0; i < NumV; i++){
@@ -74,10 +73,8 @@ int main(void){
         }
         printf("\n");
         for (int i = 0; i < NumN; i++){
-           loop[i]=0;
 	        for (int j = 0; j < 2; j++){
                 if(!Connect[i][j]){
-                    loop[i]=1;
                     Connect[i][j]=Connect[i][j-1];
                 }
 		        printf("%c ",Connect[i][j]);
@@ -109,19 +106,10 @@ int main(void){
             system("dot -Tpng graph.dot -o graph.png");
             system("xdg-open graph.png");
         }
+        
+        //проверка связности графа по теореме
 
-        char Power[NumV];//степень вершины
-        int is_con=1;// степень вершины больше 2
-        for (int i = 0; i < NumV; i++){
-            Power[i]=0;
-            for (int j = 0; j < NumN; j++){
-                if ((Arr[i][j]) && (!loop[j]))
-                    Power[i]++;
-            }
-            if (Power[i]<2)
-                is_con=0;
-        }
-        if(is_con){
+        if(NumN>(((NumV-1)*(NumV-2))/2)){
             printf("This graph is connected\n");
         }else{
             printf("This graph is not connected\n");
@@ -129,5 +117,3 @@ int main(void){
     }
  return 0;
 }
-
-
