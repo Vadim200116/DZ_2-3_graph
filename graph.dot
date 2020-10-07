@@ -1,0 +1,2 @@
+digraph Test {
+a -> b c -> d b -> c d -> a d -> d a -> b }
